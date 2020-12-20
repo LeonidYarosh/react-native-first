@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, FlatList, Image } from "react-native";
 import { ListItem } from "react-native-elements";
-import pizza from "../common/images/uthappizza.png";
+
 import { DISHES } from "../common/dishes";
-import {PAGE_NAME} from './MainComponents'
+
+import pizza from "../common/images/uthappizza.png";
+import { PAGE_NAME } from "../common/navigationConst";
 
 const styles = StyleSheet.create({
   imgAva: {
@@ -18,17 +20,12 @@ export class Menu extends React.Component {
     dishes: DISHES,
   };
 
-  static navigationOptions = {
-    title: "Меню",
-  };
-
   onPress = (id) => () => {
     const { navigate } = this.props.navigation;
-    navigate(PAGE_NAME.DISH_DETAIL, { dishId: id })
-  }
+    navigate(PAGE_NAME.DISH_DETAIL, { dishId: id });
+  };
 
   renderMenuItem = ({ item, index }) => {
-
     return (
       <ListItem
         key={index}

@@ -11,14 +11,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export class DishDetail extends React.Component {
+export const DishDetail = () => {
+    const { dishId } = this.props.route.params
 
-  static navigationOptions = {
-    title: 'Состав блюда'
-  }
-
-  render() {
-    const dishId = this.props.navigation.getParam('dishId', '')
     const dish = DISHES[+dishId]
     if (dish != null) {
       return (
@@ -33,5 +28,4 @@ export class DishDetail extends React.Component {
     } else {
       return <View />;
     }
-  }
 }

@@ -1,42 +1,43 @@
 import 'react-native-gesture-handler';
-import React, { Component } from "react";
-import { View, Platform } from 'react-native'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { View } from 'react-native'
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import {Home} from './Home'
 import { Menu } from "./Menu";
-import { DISHES } from "../common/dishes";
-import { DishDetail } from "./DishDetail";
-import { createStackNavigator } from 'react-navigation'
+import {PAGE_NAME} from '../common/navigationConst'
+import {DishDetail} from './DishDetail'
 
-export const PAGE_NAME = {
-  MENU: 'Menu',
-  DISH_DETAIL: 'DishDetail'
-}
 
-const MenuNavigator = createStackNavigator({
-  [PAGE_NAME.MENU]: { screen: Menu },
-  [PAGE_NAME.DISH_DETAIL]: { screen: DishDetail },
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-}, {
-  initialRouteName: 'Menu',
-  navigationOptions: {
-    headerStyle: {
-      backgroundColor: '#0e42dc'
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      color: '#fff'
-    }
-  }
-})
+export const MenuWrapper = () => (
+    <Stack.Navigator initialRouteName={PAGE_NAME.MENU}>
+        <Stack.Screen
+            name={PAGE_NAME.MENU}
+            component={Menu}
+            options={{ title: "Меню" }}
+        />
+        <Stack.Screen
+            name={PAGE_NAME.DISH_DETAIL}
+            component={DishDetail}
+            options={{ title: "Состав блюда" }}
+        />
+    </Stack.Navigator>
+)
 
-export class Main extends Component {
-
-  render() {
-    const { dishes, selectedDish } = this.state;
-
+export const Main = () => {
     return (
-      <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Contains.statusBarHeight }}>
-        <MenuNavigator />
+      <View style={{ flex: 1, paddingTop: 0 }}>
+        <NavigationContainer>
+          <Drawer.Navigator initialRouteName={PAGE_NAME.HOME}>
+            <Drawer.Screen name={PAGE_NAME.HOME} component={Home} />
+            <Drawer.Screen name={PAGE_NAME.MENU} component={MenuWrapper} />
+          </Drawer.Navigator>
+        </NavigationContainer>
       </View>
     );
-  }
 }
